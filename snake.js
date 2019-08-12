@@ -1,26 +1,7 @@
 let circleX = 10;
 let circleY = 10;
-let tableRow = 10;
-let tableCol = 10;
-let cellW = 50;
-let cellH = 50;
-let table = new Array(tableCol * tableRow);
-let tableR = new Array(tableRow * tableCol);
-let tableG = new Array(tableCol * tableRow);
-let tableB = new Array(tableRow * tableCol);
-let special = Math.PI/25;
+const special = Math.PI/25;
 let degree = 0;
-let snakeCount = 5; 
-let ladderCount = 3;
-let snakeHeadX = new Array(snakeCount);
-let snakeHeadY = new Array(snakeCount);
-let snakeTailX = new Array(snakeCount);
-let snakeTailY = new Array(snakeCount);
-let ladderHeadX = new Array(ladderCount);
-let ladderHeadY = new Array(ladderCount);
-let ladderTailX = new Array(ladderCount);
-let ladderTailY = new Array(ladderCount);
-let leftEmptyW = 50;
 let dieValue = 0;
 let first = new Player();
 let dieButton;
@@ -28,16 +9,15 @@ let playerCountInput;
 let playerCountSubmitButton;
 let players;
 let currentPlayer = first;
-let CANVAS_W = 750;
-let CANVAS_H = 500;
 let dieButtonX = 560;
 let dieButtonY = 400;
 let pCountInputX = 560;
 let pCountInputY = 350;
 let pCountSubmitX = 560;
 let pCountSubmitY = 375;
+let begin = new Initializer();
 function setup() {
-	createCanvas(CANVAS_W, CANVAS_H);
+	createCanvas(begin.CANVAS_W, begin.CANVAS_H);
 	background(0);
 	dieButton = createButton('roll dies');
 	dieButton.position(dieButtonX, dieButtonY);
@@ -46,9 +26,9 @@ function setup() {
 	playerCountInput.position(pCountInputX, pCountInputY);
 	playerCountSubmitButton = createButton('submit');
 	playerCountSubmitButton.position(pCountSubmitX, pCountSubmitY);
-	playerCountSubmitButton.mousePressed(submitPlayerCount);
-	setTable();
-	randomGenerator();
+	//playerCountSubmitButton.mousePressed(submitPlayerCount);
+	begin.setTable();
+	begin.randomGenerator();
 }
 function draw()
 {
@@ -59,42 +39,30 @@ function draw()
 	controlMove(first);
 	drawDie(dieValue);
 }
-function setTable()
-{
-	for(var i = 0; i < tableCol * tableRow; i++)
-	{
-		tableR[i] = random(256);
-		tableG[i] = random(256);
-		tableB[i] = random(256);
-	}
-	for(var i = 0; i < tableCol * tableRow; i++)
-	{
-		table[i] = true;
-	}
-}
+
 function drawSAL()
 {
-	for(var i = 0; i < snakeCount; i++)
+	for(var i = 0; i < begin.snakeCount; i++)
 	{
 		fill(100 , 0 , 255);
-		drawZiqZaq(snakeHeadX[i], snakeHeadY[i], snakeTailX[i],snakeTailY[i], true);	
+		drawZiqZaq(begin.snakeHeadX[i], begin.snakeHeadY[i], begin.snakeTailX[i],begin.snakeTailY[i], true);	
 	}
-	for(var i = 0; i < ladderCount; i++)
+	for(var i = 0; i < begin.ladderCount; i++)
 	{
 		fill(200 , 40 , 40);
-		drawZiqZaq(ladderHeadX[i], ladderHeadY[i], ladderTailX[i],ladderTailY[i], false);	
+		drawZiqZaq(begin.ladderHeadX[i], begin.ladderHeadY[i], begin.ladderTailX[i],begin.ladderTailY[i], false);	
 	}
 }
-function submitPlayerCount()
+/*function submitPlayerCount()
 {
 	let playerCount = playerCountInput.value();
 	players = new Array(playerCount);
 	for(var k = 0; k < playerCount; k++)
 	{
-		players[k] = new Player();
+		bbegin.players[k] = new Player();
 	}
 
-}
+}*/
 function drawZiqZaq(a, b, c, d, e)
 {
 	var mul;
@@ -128,14 +96,14 @@ function getDieValue()
 }
 function drawTable()
 {
-	for(var x = 0; x < tableRow; x++)
+	for(var x = 0; x < begin.tableRow; x++)
 	{
-		for(var y = 0; y < tableCol; y++)
+		for(var y = 0; y < begin.tableCol; y++)
 		{
-			if(table[x*tableCol + y])
+			if(begin.table[x*begin.tableCol + y])
 			{
-				fill(tableR[x*tableCol + y], tableG[x*tableCol + y], tableB[x*tableCol + y]);
-				rect(leftEmptyW + y * cellW, x * cellH, cellW - 1, cellH - 1,5);
+				fill(begin.tableR[x*begin.tableCol + y], begin.tableG[x*begin.tableCol + y], begin.tableB[x*begin.tableCol + y]);
+				rect(begin.leftEmptyW + y * begin.cellW, x * begin.cellH, begin.cellW - 1, begin.cellH - 1,5);
 			}
 		}
 	}
@@ -204,14 +172,6 @@ function rollDies()
 {
 	return Math.floor(random(6) + 1);
 }
-function showActiveness(a)
-{
-	console.log(a.CX);
-	console.log(a.TX);
-	console.log(a.CY);
-	console.log(a.TY);
-	console.log("-------------");
-}
 function buttonController(a)
 {
 	if(first.CX == first.TX && first.TY == first.CY)
@@ -230,27 +190,27 @@ function controlMove(a)
 		&& a.currentY == a.targetY)
 	{
 		a.moveType = 1;
-		for(var i = 0; i < snakeCount; i++)
+		for(var i = 0; i < begin.snakeCount; i++)
 		{
-			if(a.CX == snakeHeadX[i] 
-				&& a.CY == snakeHeadY[i])
+			if(a.CX == begin.snakeHeadX[i] 
+				&& a.CY == begin.snakeHeadY[i])
 			{
-				a.targetX = (snakeTailX[i] - leftEmptyW - cellW/2) / cellW;
-				a.targetY = (475 - snakeTailY[i]) / cellH;
-				a.TX = snakeTailX[i];
-				a.TY = snakeTailY[i];
+				a.targetX = (begin.snakeTailX[i] - begin.leftEmptyW - begin.cellW/2) / begin.cellW;
+				a.targetY = (475 - begin.snakeTailY[i]) / begin.cellH;
+				a.TX = begin.snakeTailX[i];
+				a.TY = begin.snakeTailY[i];
 				a.moveType = 2;
 			}
 		}
-		for(var i = 0; i < ladderCount; i++)
+		for(var i = 0; i < begin.ladderCount; i++)
 		{
-			if(a.CX == ladderHeadX[i] 
-				&& a.CY == ladderHeadY[i])
+			if(a.CX == begin.ladderHeadX[i] 
+				&& a.CY == begin.ladderHeadY[i])
 			{
-				a.targetX =  (ladderTailX[i] - leftEmptyW - cellW/2) / cellW;
-				a.targetY = (475 - ladderTailY[i]) / cellH;
-				a.TX = ladderTailX[i];
-				a.TY = ladderTailY[i];
+				a.targetX =  (begin.ladderTailX[i] - begin.leftEmptyW - begin.cellW/2) / begin.cellW;
+				a.targetY = (475 - begin.ladderTailY[i]) / begin.cellH;
+				a.TX = begin.ladderTailX[i];
+				a.TY = begin.ladderTailY[i];
 				a.moveType = 3;
 			}
 		}
@@ -266,142 +226,5 @@ function controlMove(a)
 			a.ziqZaqMove();
 		}
 
-	}
-}
-function randomGenerator()
-{
-	var snakeCor = new Array(snakeCount * 2);
-	var ladderCor = new Array(ladderCount * 2);
-	for(var i = 0; i < snakeCor.length; i = i + 2)
-	{
-		var value1 = 0;
-		var value2 = 0;
-		let notValidV1 = true;
-		let notValidV2 = true;
-		while(notValidV1)
-		{
-			value1 = Math.floor(random(100))
-			if(value1 > 9 && value1 != 90)
-			{
-				notValidV1 = false;
-			}
-			if(!notValidV1)
-			{
-				for(var k = 0; k < i; k++)
-				{
-					if(value1 == snakeCor[k])
-					{
-						notValidV1 = true;
-					}
-				}
-			}
-		}
-		snakeCor[i] = value1;
-		while(notValidV2)
-		{
-			value2 = Math.floor(random(100));
-			if(value2 < Math.floor(value1 / 10) * 10)
-			{
-				notValidV2 = false;
-			}
-			if(!notValidV2)
-			{
-				for(var k = 0; k < i; k++)
-				{
-					if(value2 == snakeCor[k])
-					{
-						notValidV2 = true;
-					}
-				}
-			}
-		}
-		snakeCor[i+1] = value2;
-	}
-	for(var i = 0; i < ladderCor.length; i = i + 2)
-	{
-		var value1 = 0;
-		var value2 = 0;
-		let notValidV1 = true;
-		let notValidV2 = true;
-		while(notValidV1)
-		{
-			value1 = Math.floor(random(100))
-			if(value1 < 90 && value1 != 0)
-			{
-				notValidV1 = false;
-			}
-			if(!notValidV1)
-			{
-				for(var k = 0; k < snakeCor.length; k++)
-				{
-					if(value1 == snakeCor[k])
-					{
-						notValidV1 = true;
-					}
-				}
-				for(var k = 0; k < i; k++)
-				{
-					if(value1 == ladderCor[k])
-					{
-						notValidV1 = true;
-					}
-				}
-			}
-		}
-		ladderCor[i] = value1;
-		while(notValidV2)
-		{
-			value2 = Math.floor(random(100));
-			if(value2 >= Math.floor(value1 / 10) * 10 + 10)
-			{
-				notValidV2 = false;
-			}
-			if(!notValidV2)
-			{
-				for(var k = 0; k < snakeCor.length; k++)
-				{
-					if(value2 == snakeCor[k])
-					{
-						notValidV2 = true;
-					}
-				}
-				for(var k = 0; k < i; k++)
-				{
-					if(value2 == ladderCor[k])
-					{
-						notValidV2 = true;
-					}
-				}
-			}
-		}
-		ladderCor[i+1] = value2;
-	}
-	for(var k = 0; k < snakeCount; k++)
-	{
-		snakeHeadX[k] = snakeCor[2*k] - Math.floor(snakeCor[2*k] / 10) * 10;
-		snakeHeadY[k] = Math.floor(snakeCor[2*k] / 10);
-		snakeTailX[k] = snakeCor[2*k+1] - Math.floor(snakeCor[2*k+1] / 10) * 10;
-		snakeTailY[k] = Math.floor(snakeCor[2*k+1] / 10);
-	}
-	for(var k = 0; k < ladderCount; k++)
-	{
-		ladderHeadX[k] = ladderCor[2*k] - Math.floor(ladderCor[2*k] / 10) * 10;
-		ladderHeadY[k] = Math.floor(ladderCor[2*k] / 10);
-		ladderTailX[k] = ladderCor[2*k+1] - Math.floor(ladderCor[2*k+1] / 10) * 10;
-		ladderTailY[k] = Math.floor(ladderCor[2*k+1] / 10);
-	}
-	for(var k = 0; k < snakeCount; k++)
-	{
-		snakeHeadX[k] = leftEmptyW + cellW/2 + snakeHeadX[k] * cellW;
-		snakeHeadY[k] = 475 - snakeHeadY[k] * cellH;
-		snakeTailX[k] = leftEmptyW + cellW/2 + snakeTailX[k] * cellW;
-		snakeTailY[k] = 475 - snakeTailY[k] * cellH;
-	}
-	for(var k = 0; k < ladderCount; k++)
-	{
-		ladderHeadX[k] = leftEmptyW + cellW/2 + ladderHeadX[k] * cellW;
-		ladderHeadY[k] = 475 - ladderHeadY[k] * cellH;
-		ladderTailX[k] = leftEmptyW + cellW/2 + ladderTailX[k] * cellW;
-		ladderTailY[k] = 475 - ladderTailY[k] * cellH;
 	}
 }
