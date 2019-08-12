@@ -3,6 +3,7 @@ let degree1 = 0;
 let speed1 = 0;
 let speed2 = 0;
 let counter = 0;
+let playerBallDiameter = 20;
 class Player
 {
 	constructor()
@@ -74,7 +75,7 @@ class Player
 	display()
 	{
 		fill(0, 0, 255);
-		circle(this.CX, this.CY, 20);
+		circle(this.CX, this.CY, playerBallDiameter);
 	}
 
 	drawNormalMotion()
@@ -137,7 +138,6 @@ class Player
 	} 
 	ziqZaqMove()
 	{
-
 		var multiplier;
 		if(this.moveType == 2)
 			multiplier = 2;

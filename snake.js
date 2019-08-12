@@ -10,10 +10,8 @@ let tableG = new Array(tableCol * tableRow);
 let tableB = new Array(tableRow * tableCol);
 let special = Math.PI/25;
 let degree = 0;
-let circle1 = 25;
-let circle2 = 25;
-const snakeCount = 5; 
-const ladderCount = 3;
+let snakeCount = 5; 
+let ladderCount = 3;
 let snakeHeadX = new Array(snakeCount);
 let snakeHeadY = new Array(snakeCount);
 let snakeTailX = new Array(snakeCount);
@@ -22,7 +20,7 @@ let ladderHeadX = new Array(ladderCount);
 let ladderHeadY = new Array(ladderCount);
 let ladderTailX = new Array(ladderCount);
 let ladderTailY = new Array(ladderCount);
-let g = 0;
+let leftEmptyW = 50;
 let dieValue = 0;
 let first = new Player();
 let dieButton;
@@ -30,17 +28,25 @@ let playerCountInput;
 let playerCountSubmitButton;
 let players;
 let currentPlayer = first;
+let CANVAS_W = 750;
+let CANVAS_H = 500;
+let dieButtonX = 560;
+let dieButtonY = 400;
+let pCountInputX = 560;
+let pCountInputY = 350;
+let pCountSubmitX = 560;
+let pCountSubmitY = 375;
 function setup() {
-	createCanvas(750, 500);
+	createCanvas(CANVAS_W, CANVAS_H);
 	background(0);
 	dieButton = createButton('roll dies');
-	dieButton.position(560, 400);
+	dieButton.position(dieButtonX, dieButtonY);
 	dieButton.mousePressed(getDieValue);
-	/*playerCountInput = createInput();
-	playerCountInput.position(560, 300);
+	playerCountInput = createInput();
+	playerCountInput.position(pCountInputX, pCountInputY);
 	playerCountSubmitButton = createButton('submit');
-	playerCountSubmitButton.position(560, 350);
-	playerCountSubmitButton.mousePressed(submitPlayerCount);*/
+	playerCountSubmitButton.position(pCountSubmitX, pCountSubmitY);
+	playerCountSubmitButton.mousePressed(submitPlayerCount);
 	setTable();
 	randomGenerator();
 }
@@ -50,7 +56,6 @@ function draw()
 	drawTable();
 	drawSAL();
 	buttonController(first);
-	//showActiveness(first);
 	controlMove(first);
 	drawDie(dieValue);
 }
@@ -71,12 +76,12 @@ function drawSAL()
 {
 	for(var i = 0; i < snakeCount; i++)
 	{
-		fill(i * 50 , 0 , (5-i)*50);
+		fill(100 , 0 , 255);
 		drawZiqZaq(snakeHeadX[i], snakeHeadY[i], snakeTailX[i],snakeTailY[i], true);	
 	}
 	for(var i = 0; i < ladderCount; i++)
 	{
-		fill(i * 50 , 0 , (5-i)*50);
+		fill(200 , 40 , 40);
 		drawZiqZaq(ladderHeadX[i], ladderHeadY[i], ladderTailX[i],ladderTailY[i], false);	
 	}
 }
@@ -114,9 +119,6 @@ function getDieValue()
 {
 	if(first.CX == first.TX && first.TY == first.CY)
 	{
-		//console.log("button active");
-		//console.log(first.TX);
-		//console.log(first.CX);
 		dieValue = rollDies();
 		console.log('d val ' + dieValue);
 		first.setRTGDV();
@@ -133,7 +135,7 @@ function drawTable()
 			if(table[x*tableCol + y])
 			{
 				fill(tableR[x*tableCol + y], tableG[x*tableCol + y], tableB[x*tableCol + y]);
-				rect(50 + y * cellW, x * cellH, cellW - 1, cellH - 1,5);
+				rect(leftEmptyW + y * cellW, x * cellH, cellW - 1, cellH - 1,5);
 			}
 		}
 	}
@@ -233,8 +235,8 @@ function controlMove(a)
 			if(a.CX == snakeHeadX[i] 
 				&& a.CY == snakeHeadY[i])
 			{
-				a.targetX = (snakeTailX[i] - 75) / 50;
-				a.targetY = (475 - snakeTailY[i]) / 50;
+				a.targetX = (snakeTailX[i] - leftEmptyW - cellW/2) / cellW;
+				a.targetY = (475 - snakeTailY[i]) / cellH;
 				a.TX = snakeTailX[i];
 				a.TY = snakeTailY[i];
 				a.moveType = 2;
@@ -245,8 +247,8 @@ function controlMove(a)
 			if(a.CX == ladderHeadX[i] 
 				&& a.CY == ladderHeadY[i])
 			{
-				a.targetX =  (ladderTailX[i] - 75) / 50;
-				a.targetY = (475 - ladderTailY[i]) / 50;
+				a.targetX =  (ladderTailX[i] - leftEmptyW - cellW/2) / cellW;
+				a.targetY = (475 - ladderTailY[i]) / cellH;
 				a.TX = ladderTailX[i];
 				a.TY = ladderTailY[i];
 				a.moveType = 3;
@@ -265,12 +267,6 @@ function controlMove(a)
 		}
 
 	}
-	/*console.log("----------------------------------------------");
-	console.log(a.currentX);
-	console.log(a.targetX);
-	console.log(a.currentY);
-	console.log(a.targetY);
-	console.log(a.moveDirection);*/
 }
 function randomGenerator()
 {
@@ -396,16 +392,16 @@ function randomGenerator()
 	}
 	for(var k = 0; k < snakeCount; k++)
 	{
-		snakeHeadX[k] = 75 + snakeHeadX[k] * 50;
-		snakeHeadY[k] = 475 - snakeHeadY[k] * 50;
-		snakeTailX[k] = 75 + snakeTailX[k] * 50;
-		snakeTailY[k] = 475 - snakeTailY[k] * 50;
+		snakeHeadX[k] = leftEmptyW + cellW/2 + snakeHeadX[k] * cellW;
+		snakeHeadY[k] = 475 - snakeHeadY[k] * cellH;
+		snakeTailX[k] = leftEmptyW + cellW/2 + snakeTailX[k] * cellW;
+		snakeTailY[k] = 475 - snakeTailY[k] * cellH;
 	}
 	for(var k = 0; k < ladderCount; k++)
 	{
-		ladderHeadX[k] = 75 + ladderHeadX[k] * 50;
-		ladderHeadY[k] = 475 - ladderHeadY[k] * 50;
-		ladderTailX[k] = 75 + ladderTailX[k] * 50;
-		ladderTailY[k] = 475 - ladderTailY[k] * 50;
+		ladderHeadX[k] = leftEmptyW + cellW/2 + ladderHeadX[k] * cellW;
+		ladderHeadY[k] = 475 - ladderHeadY[k] * cellH;
+		ladderTailX[k] = leftEmptyW + cellW/2 + ladderTailX[k] * cellW;
+		ladderTailY[k] = 475 - ladderTailY[k] * cellH;
 	}
 }
