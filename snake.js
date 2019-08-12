@@ -2,7 +2,7 @@ let circleX = 10;
 let circleY = 10;
 const special = Math.PI/25;
 let degree = 0;
-let dieValue = 0;
+//let dieValue = 0;
 let first = new Player();
 let dieButton;
 let playerCountInput;
@@ -16,6 +16,7 @@ let pCountInputY = 350;
 let pCountSubmitX = 560;
 let pCountSubmitY = 375;
 let begin = new Initializer();
+let die = new Die();
 function setup() {
 	createCanvas(begin.CANVAS_W, begin.CANVAS_H);
 	background(0);
@@ -37,7 +38,7 @@ function draw()
 	drawSAL();
 	buttonController(first);
 	controlMove(first);
-	drawDie(dieValue);
+	die.drawDie();
 }
 
 function drawSAL()
@@ -87,12 +88,12 @@ function getDieValue()
 {
 	if(first.CX == first.TX && first.TY == first.CY)
 	{
-		dieValue = rollDies();
-		console.log('d val ' + dieValue);
+		dieV = die.rollDies();
+		console.log('d val ' + dieV);
 		first.setRTGDV();
 		first.setSTZZ();
 	}
-	first.setTargetByDieValue(dieValue);
+	first.setTargetByDieValue(dieV);
 }
 function drawTable()
 {
@@ -108,7 +109,7 @@ function drawTable()
 		}
 	}
 }
-function drawDie(a)
+/*function drawDie(a)
 {
 	if(a == 1)
 	{
@@ -171,7 +172,7 @@ function drawDie(a)
 function rollDies()
 {
 	return Math.floor(random(6) + 1);
-}
+}*/
 function buttonController(a)
 {
 	if(first.CX == first.TX && first.TY == first.CY)
