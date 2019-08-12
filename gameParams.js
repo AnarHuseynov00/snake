@@ -1,3 +1,4 @@
+const special = Math.PI/25;
 class Initializer
 {
 	constructor(playerCount)
@@ -177,6 +178,42 @@ class Initializer
 			this.ladderHeadY[k] = 475 - this.ladderHeadY[k] * this.cellH;
 			this.ladderTailX[k] = this.leftEmptyW + this.cellW/2 + this.ladderTailX[k] * this.cellW;
 			this.ladderTailY[k] = 475 - this.ladderTailY[k] * this.cellH;
+		}
+	}
+
+	drawZiqZaq(a, b, c, d, e)
+	{
+		var mul;
+		if(e) {
+			mul = 2;
+		}
+		else {
+			mul = 0;
+		}
+		var circleX = a;
+		var circleY = b;
+		var speed1 = (c - a) / 200;
+		var speed2 = (d - b) / 200;
+		let degree = 0;    
+		for(var e = 0; e < 200; e++)
+		{
+			circle(circleX, circleY, 10);
+			degree = degree + special;
+			circleX = circleX + speed1 + mul*Math.sin(degree);
+			circleY = circleY + speed2;
+		}
+	}
+	drawSAL()
+	{
+		for(var i = 0; i < this.snakeCount; i++)
+		{
+			fill(100 , 0 , 255);
+			drawZiqZaq(this.snakeHeadX[i], this.snakeHeadY[i], this.snakeTailX[i],this.snakeTailY[i], true);	
+		}
+		for(var i = 0; i < this.ladderCount; i++)
+		{
+			fill(200 , 40 , 40);
+			drawZiqZaq(this.ladderHeadX[i], this.ladderHeadY[i], this.ladderTailX[i],this.ladderTailY[i], false);	
 		}
 	}
 }

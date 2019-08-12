@@ -1,13 +1,7 @@
-let circleX = 10;
-let circleY = 10;
-const special = Math.PI/25;
-let degree = 0;
-//let dieValue = 0;
 let first = new Player();
 let dieButton;
 let playerCountInput;
 let playerCountSubmitButton;
-let players;
 let currentPlayer = first;
 let dieButtonX = 560;
 let dieButtonY = 400;
@@ -17,6 +11,7 @@ let pCountSubmitX = 560;
 let pCountSubmitY = 375;
 let begin = new Initializer();
 let die = new Die();
+
 function setup() {
 	createCanvas(begin.CANVAS_W, begin.CANVAS_H);
 	background(0);
@@ -35,35 +30,12 @@ function draw()
 {
 	background(0);
 	drawTable();
-	drawSAL();
+	begin.drawSAL();
 	buttonController(first);
 	controlMove(first);
+	console.log(die.dieValue);
 	die.drawDie();
 }
-
-function drawSAL()
-{
-	for(var i = 0; i < begin.snakeCount; i++)
-	{
-		fill(100 , 0 , 255);
-		drawZiqZaq(begin.snakeHeadX[i], begin.snakeHeadY[i], begin.snakeTailX[i],begin.snakeTailY[i], true);	
-	}
-	for(var i = 0; i < begin.ladderCount; i++)
-	{
-		fill(200 , 40 , 40);
-		drawZiqZaq(begin.ladderHeadX[i], begin.ladderHeadY[i], begin.ladderTailX[i],begin.ladderTailY[i], false);	
-	}
-}
-/*function submitPlayerCount()
-{
-	let playerCount = playerCountInput.value();
-	players = new Array(playerCount);
-	for(var k = 0; k < playerCount; k++)
-	{
-		bbegin.players[k] = new Player();
-	}
-
-}*/
 function drawZiqZaq(a, b, c, d, e)
 {
 	var mul;
@@ -109,70 +81,6 @@ function drawTable()
 		}
 	}
 }
-/*function drawDie(a)
-{
-	if(a == 1)
-	{
-		fill(255, 255, 255);
-		rect(600, 450, 50, 50, 5);
-		fill(0, 0, 0);
-		circle(625, 475, 10);
-	}
-	if(a == 2)
-	{
-		fill(255, 255, 255);
-		rect(600, 450, 50, 50, 5);
-		fill(0, 0, 0);
-		circle(615, 475, 10);
-		circle(635, 475, 10);
-	}
-	if(a == 3)
-	{
-		fill(255, 255, 255);
-		rect(600, 450, 50, 50, 5);
-		fill(0, 0, 0);
-		circle(610, 460, 10);
-		circle(625, 475, 10);
-		circle(640, 490, 10);
-	}
-	if(a == 4)
-	{
-		fill(255, 255, 255);
-		rect(600, 450, 50, 50, 5);
-		fill(0, 0, 0);
-		circle(615, 465, 10);
-		circle(635, 465, 10);
-		circle(635, 485, 10);
-		circle(615, 485, 10);
-	}
-	if(a == 5)
-	{
-		fill(255, 255, 255);
-		rect(600, 450, 50, 50, 5);
-		fill(0, 0, 0);
-		circle(610, 460, 10);
-		circle(640, 460, 10);
-		circle(640, 490, 10);
-		circle(610, 490, 10);
-		circle(625, 475, 10);
-	}
-	if(a == 6)
-	{
-		fill(255, 255, 255);
-		rect(600, 450, 50, 50, 5);
-		fill(0, 0, 0);
-		circle(610, 465, 10);
-		circle(640, 465, 10);
-		circle(640, 485, 10);
-		circle(610, 485, 10);
-		circle(625, 465, 10);
-		circle(625, 485, 10);
-	}
-}
-function rollDies()
-{
-	return Math.floor(random(6) + 1);
-}*/
 function buttonController(a)
 {
 	if(first.CX == first.TX && first.TY == first.CY)

@@ -6,7 +6,8 @@ class Die
 	}
 	rollDies()
 	{
-		return Math.floor(random(6) + 1);
+		this.dieValue = Math.floor(random(6) + 1);
+		return this.dieValue
 	}
 	drawDie()
 	{
