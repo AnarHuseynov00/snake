@@ -24,14 +24,14 @@ let ladderTailX = new Array(ladderCount);
 let ladderTailY = new Array(ladderCount);
 let g = 0;
 let dieValue = 0;
-var first = new Player();
-var dieButton;
-var playerCountInput;
-var playerCountSubmitButton;
-var players;
-var currentPlayer = first;
+let first = new Player();
+let dieButton;
+let playerCountInput;
+let playerCountSubmitButton;
+let players;
+let currentPlayer = first;
 function setup() {
-	createCanvas(650, 500);
+	createCanvas(750, 500);
 	background(0);
 	dieButton = createButton('roll dies');
 	dieButton.position(560, 400);
@@ -49,9 +49,9 @@ function draw()
 	background(0);
 	drawTable();
 	drawSAL();
-	first.setTargetByDieValue(dieValue);
+	buttonController(first);
+	//showActiveness(first);
 	controlMove(first);
-	showActiveness(first);
 	drawDie(dieValue);
 }
 function setTable()
@@ -117,10 +117,12 @@ function getDieValue()
 		//console.log("button active");
 		//console.log(first.TX);
 		//console.log(first.CX);
-		dieValue = rollDies();	
+		dieValue = rollDies();
+		console.log('d val ' + dieValue);
 		first.setRTGDV();
 		first.setSTZZ();
 	}
+	first.setTargetByDieValue(dieValue);
 }
 function drawTable()
 {
@@ -202,17 +204,21 @@ function rollDies()
 }
 function showActiveness(a)
 {
-	if(a.CX == a.TX && a.TY == a.CY)
+	console.log(a.CX);
+	console.log(a.TX);
+	console.log(a.CY);
+	console.log(a.TY);
+	console.log("-------------");
+}
+function buttonController(a)
+{
+	if(first.CX == first.TX && first.TY == first.CY)
 	{
-		console.log("button is active");
-		console.log(a.CX);
-		console.log(a.TX);
-		console.log(a.CY);
-		console.log(a.TY);
+		dieButton.removeAttribute('disabled');
 	}
 	else
 	{
-		console.log("--------------------------------------");
+		dieButton.attribute('disabled', '');
 	}
 }
 function controlMove(a)

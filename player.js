@@ -65,8 +65,8 @@ class Player
 				this.targetY += 1;
 				this.targetX = 19 - a * this.direction - this.currentX;
 			}
-			this.TX = 75 + 50*this.targetX;
-			this.TY = 475 - 50*this.targetY;
+			this.TX = 75 + 50 * this.targetX;
+			this.TY = 475 - 50 * this.targetY;
 		}
 		this.readyToGetDieValue = false;
 	}
