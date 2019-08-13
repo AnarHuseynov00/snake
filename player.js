@@ -21,6 +21,11 @@ class Player
 		this.readyToGetDieValue = false;
 		this.startToZiqZaq = true;
 		this.moveType = 1;
+		this.finished = false;
+		this.R = random(256);
+		this.G = random(256);
+		this.B = random(256);
+		this.dragVal = 0;
 	}
 	setTarget(a, b)
 	{
@@ -34,6 +39,30 @@ class Player
 	setRTGDV()
 	{
 		this.readyToGetDieValue = 1;
+	}
+	drag(a)
+	{
+		if(a == 1)
+		{
+			this.CX -= 15;
+			this.CY -= 15;
+		}
+		else if(a == 2)
+		{
+			this.CX -= 15;
+			this.CY += 15;
+		}
+		else if(a == 3)
+		{
+			this.CX += 15;
+			this.CY -= 15;
+		}
+		else if(a == 4)
+		{
+			this.CX += 15;
+			this.CY += 15;
+		}
+		this.dragVal = a;	
 	}
 	setTargetByDieValue(a)
 	{
@@ -59,6 +88,7 @@ class Player
 				{
 					this.targetY = 9
 					this.targetX = 0;
+					this.finished = true;
 				}
 			}
 			else if(a * this.direction + this.currentX > 9)
@@ -74,7 +104,7 @@ class Player
 	
 	display()
 	{
-		fill(0, 0, 255);
+		fill(this.R, this.G, this.B);
 		circle(this.CX, this.CY, playerBallDiameter);
 	}
 

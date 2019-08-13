@@ -1,7 +1,7 @@
 const special = Math.PI/25;
 class Initializer
 {
-	constructor(playerCount)
+	constructor()
 	{
 		this.tableRow = 10;
 		this.tableCol = 10;
@@ -24,11 +24,8 @@ class Initializer
 		this.CANVAS_W = 750;
 		this.CANVAS_H = 500;
 		this.leftEmptyW = 50;
-		this.players = new Array(playerCount);
-		for(var k = 0; k < playerCount; k++)
-		{
-			this.players[k] = new Player();
-		}
+		this.players = new Array(1);
+		this.players[0] = new Player();
 	}
 	setTable()
 	{
@@ -41,6 +38,13 @@ class Initializer
 		for(var i = 0; i < this.tableCol * this.tableRow; i++)
 		{
 			this.table[i] = true;
+		}
+	}
+	submitPlayerCount(a)
+	{
+		this.players = new Array(a);
+		for (var i = 0; i < a; i++) {
+			this.players[i] = new Player();
 		}
 	}
 	randomGenerator()

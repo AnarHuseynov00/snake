@@ -1,39 +1,36 @@
-let first = new Player();
+let currentPlayer;
 let dieButton;
-let playerCountInput;
-let playerCountSubmitButton;
-let currentPlayer = first;
+let anotherDieButton;
 let dieButtonX = 560;
 let dieButtonY = 400;
-let pCountInputX = 560;
-let pCountInputY = 350;
-let pCountSubmitX = 560;
-let pCountSubmitY = 375;
-let begin = new Initializer();
+let begin;
 let die = new Die();
-
-function setup() {
+let index = 0;
+let playerCount;
+function setup()
+{
+	getPlayerCount();
+	begin = new Initializer();
+	begin.submitPlayerCount(playerCount);
 	createCanvas(begin.CANVAS_W, begin.CANVAS_H);
 	background(0);
+	begin.setTable();
+	begin.randomGenerator();
+	currentPlayer = begin.players[0];
 	dieButton = createButton('roll dies');
 	dieButton.position(dieButtonX, dieButtonY);
 	dieButton.mousePressed(getDieValue);
-	playerCountInput = createInput();
-	playerCountInput.position(pCountInputX, pCountInputY);
-	playerCountSubmitButton = createButton('submit');
-	playerCountSubmitButton.position(pCountSubmitX, pCountSubmitY);
-	//playerCountSubmitButton.mousePressed(submitPlayerCount);
-	begin.setTable();
-	begin.randomGenerator();
+	anotherDieButton = createButton('change player');
+	anotherDieButton.position(dieButtonX, dieButtonY - 50);
+	anotherDieButton.mousePressed(setCurrentPlayer);
 }
 function draw()
 {
 	background(0);
 	drawTable();
 	begin.drawSAL();
-	buttonController(first);
-	controlMove(first);
-	console.log(die.dieValue);
+	buttonController(currentPlayer);
+	movePlayers();
 	die.drawDie();
 }
 function drawZiqZaq(a, b, c, d, e)
@@ -56,16 +53,57 @@ function drawZiqZaq(a, b, c, d, e)
 		circleY = circleY + speed2;
 	}
 }
+function movePlayers()
+{
+	for(var j = 0; j < playerCount; j++)
+	{
+		controlMove(begin.players[j]);
+	}
+}
+function getPlayerCount()
+{
+	playerCount = prompt("player count should be submitted to procede the game \n player count could be between 1 and 4");
+	while(isNaN(playerCount) || playerCount > 4 || playerCount < 1)
+	{
+		playerCount = prompt("player count should be submitted to procede the game \n player count could be between 1 and 4");
+	}
+}
 function getDieValue()
 {
-	if(first.CX == first.TX && first.TY == first.CY)
+	let dieV;
+	if(currentPlayer.CX == currentPlayer.TX && currentPlayer.TY == currentPlayer.CY)
 	{
 		dieV = die.rollDies();
-		console.log('d val ' + dieV);
-		first.setRTGDV();
-		first.setSTZZ();
+		currentPlayer.setRTGDV();
+		currentPlayer.setSTZZ();
+		/*if(currentPlayer.dragVal != 0)
+		{
+			currentPlayer.drag(5 - dragVal);
+			currentPlayer.dragVal = 0;
+		}*/
+
 	}
-	first.setTargetByDieValue(dieV);
+	currentPlayer.setTargetByDieValue(dieV);
+}
+function setCurrentPlayer()
+{
+	index++;
+	if(!begin.players[index % playerCount].finished)
+	{
+		currentPlayer = begin.players[index % playerCount];
+	}
+	else if(!begin.players[(++index) % playerCount].finished)
+	{
+		currentPlayer = begin.players[index % playerCount];	
+	}
+	else if(!begin.players[(++index) % playerCount].finished)
+	{
+		currentPlayer = begin.players[index % playerCount];	
+	}
+	else
+	{
+		index++;
+	}
 }
 function drawTable()
 {
@@ -83,13 +121,15 @@ function drawTable()
 }
 function buttonController(a)
 {
-	if(first.CX == first.TX && first.TY == first.CY)
+	if(a.currentX == a.targetX && a.targetY == a.currentY)
 	{
 		dieButton.removeAttribute('disabled');
+		anotherDieButton.removeAttribute('disabled');
 	}
 	else
 	{
 		dieButton.attribute('disabled', '');
+		anotherDieButton.attribute('disabled', '');
 	}
 }
 function controlMove(a)
@@ -123,6 +163,33 @@ function controlMove(a)
 				a.moveType = 3;
 			}
 		}
+		let samePosPlayersCount = 0;
+		for(var j = 0; j < playerCount; j++)
+		{
+			if(begin.players[j].currentX == a.currentX && begin.players[j].currentY == a.currentY && 
+				a.R != begin.players[j].R && a.G != begin.players[j].G &&
+				a.B != begin.players[j].B)
+			{
+				samePosPlayersCount++;
+			}
+		}
+		console.log(samePosPlayersCount);
+		/*if(samePosPlayersCount > 0)
+		{
+			samePosPlayersCount = 0;
+			for(var j = 0; j < playerCount; j++)
+			{
+				if(begin.players[j].currentX == a.currentX && begin.players[j].currentY == a.currentY &&
+					a.R != begin.players[j].R && a.G != begin.players[j].G &&
+					a.B != begin.players[j].B)
+				{
+					if(begin.players[j].CX == a.CX && begin.players[j].CY == a.CY)
+					{
+						begin.players[j].drag(++samePosPlayersCount);
+					}
+				}
+			}
+		}*/
 	}
 	else
 	{
