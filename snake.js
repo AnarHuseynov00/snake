@@ -7,6 +7,7 @@ let begin;
 let die = new Die();
 let index = 0;
 let playerCount;
+let dragger = 0;
 function setup()
 {
 	getPlayerCount();
@@ -30,6 +31,7 @@ function draw()
 	drawTable();
 	begin.drawSAL();
 	buttonController(currentPlayer);
+	displayPlayers();
 	movePlayers();
 	die.drawDie();
 }
@@ -55,9 +57,15 @@ function drawZiqZaq(a, b, c, d, e)
 }
 function movePlayers()
 {
+	
+	controlMove(currentPlayer);
+
+}
+function displayPlayers()
+{
 	for(var j = 0; j < playerCount; j++)
 	{
-		controlMove(begin.players[j]);
+		begin.players[j].display();
 	}
 }
 function getPlayerCount()
@@ -71,16 +79,16 @@ function getPlayerCount()
 function getDieValue()
 {
 	let dieV;
-	if(currentPlayer.CX == currentPlayer.TX && currentPlayer.TY == currentPlayer.CY)
+	if(currentPlayer.currentX == currentPlayer.targetX && currentPlayer.targetY == currentPlayer.currentY)
 	{
 		dieV = die.rollDies();
 		currentPlayer.setRTGDV();
 		currentPlayer.setSTZZ();
-		/*if(currentPlayer.dragVal != 0)
+		if(currentPlayer.dragVal != 0)
 		{
-			currentPlayer.drag(5 - dragVal);
+			currentPlayer.drag(5 - currentPlayer.dragVal);
 			currentPlayer.dragVal = 0;
-		}*/
+		}
 
 	}
 	currentPlayer.setTargetByDieValue(dieV);
@@ -134,7 +142,6 @@ function buttonController(a)
 }
 function controlMove(a)
 {
-	a.display();
 	if(a.currentX == a.targetX
 		&& a.currentY == a.targetY)
 	{
@@ -173,10 +180,8 @@ function controlMove(a)
 				samePosPlayersCount++;
 			}
 		}
-		console.log(samePosPlayersCount);
-		/*if(samePosPlayersCount > 0)
+		if(samePosPlayersCount > 0)
 		{
-			samePosPlayersCount = 0;
 			for(var j = 0; j < playerCount; j++)
 			{
 				if(begin.players[j].currentX == a.currentX && begin.players[j].currentY == a.currentY &&
@@ -185,11 +190,12 @@ function controlMove(a)
 				{
 					if(begin.players[j].CX == a.CX && begin.players[j].CY == a.CY)
 					{
-						begin.players[j].drag(++samePosPlayersCount);
+						begin.players[j].drag((dragger % 4) + 1);
+						dragger++;
 					}
 				}
 			}
-		}*/
+		}
 	}
 	else
 	{
