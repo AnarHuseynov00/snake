@@ -11,8 +11,8 @@ class Initializer
 		this.tableR = new Array(this.tableRow * this.tableCol);
 		this.tableG = new Array(this.tableCol * this.tableRow);
 		this.tableB = new Array(this.tableRow * this.tableCol);
-		this.snakeCount = 4; 
-		this.ladderCount = 4;
+		this.snakeCount = 0; 
+		this.ladderCount = 0;
 		this.snakeHeadX = new Array(this.snakeCount);
 		this.snakeHeadY = new Array(this.snakeCount);
 		this.snakeTailX = new Array(this.snakeCount);

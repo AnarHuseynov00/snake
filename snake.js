@@ -32,7 +32,6 @@ function draw()
 	displayPlayers();
 	movePlayers();
 	die.drawDie();
-	console.log(index);
 }
 function drawZiqZaq(a, b, c, d, e)
 {
@@ -92,6 +91,7 @@ function getDieValue()
 
 	}
 	currentPlayer.setTargetByDieValue(dieV);
+	console.log(dieV);
 }
 function setCurrentPlayer()
 {
