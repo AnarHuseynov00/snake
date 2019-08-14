@@ -1,7 +1,7 @@
 let currentPlayer;
 let dieButton;
 let anotherDieButton;
-let dieButtonX = 560;
+let dieButtonX = 600;
 let dieButtonY = 400;
 let begin;
 let die = new Die();
@@ -13,19 +13,19 @@ function setup()
 	begin = new Initializer();
 	begin.submitPlayerCount(playerCount);
 	createCanvas(begin.CANVAS_W, begin.CANVAS_H);
-	background(0);
+	background(205, 205, 255);
 	begin.setTable();
 	begin.randomGenerator();
 	currentPlayer = begin.players[0];
 	dieButton = createButton('roll dies');
 	dieButton.position(dieButtonX, dieButtonY);
 	dieButton.mousePressed(getDieValue);
-	var col = color(25, 23, 200, 50);
+	var col = color(250, 20, 20, 50);
 	dieButton.style('background-color', col);
 }
 function draw()
 {
-	background(0);
+	background(205, 205, 255);
 	drawTable();
 	begin.drawSAL();
 	buttonController(currentPlayer);
@@ -95,17 +95,17 @@ function getDieValue()
 function setCurrentPlayer()
 {
 	index++;
-	if(!begin.players[index % playerCount].finished)
+	if(begin.players[index % playerCount].targetX != 0 || begin.players[index % playerCount].targetY != 9)
 	{
 		currentPlayer = begin.players[index % playerCount];
 		console.log(1);
 	}
-	else if(!begin.players[(++index) % playerCount].finished)
+	else if(begin.players[++index % playerCount].targetX != 0 || begin.players[index % playerCount].targetY != 9)
 	{
 		currentPlayer = begin.players[index % playerCount];
 		console.log(2);	
 	}
-	else if(!begin.players[(++index) % playerCount].finished)
+	else if(begin.players[++index % playerCount].targetX != 0 || begin.players[index % playerCount].targetY != 9)
 	{
 		currentPlayer = begin.players[index % playerCount];	
 	}
@@ -113,7 +113,6 @@ function setCurrentPlayer()
 	{
 		index++;
 	}
-	text('current player is ' + (index % playerCount), 560, 100);
 }
 function drawTable()
 {
@@ -134,12 +133,10 @@ function buttonController(a)
 	if(a.currentX == a.targetX && a.targetY == a.currentY)
 	{
 		dieButton.removeAttribute('disabled');
-		//anotherDieButton.removeAttribute('disabled');
 	}
 	else
 	{
 		dieButton.attribute('disabled', '');
-		//anotherDieButton.attribute('disabled', '');
 	}
 }
 function controlMove(a)

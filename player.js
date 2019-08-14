@@ -21,7 +21,6 @@ class Player
 		this.readyToGetDieValue = false;
 		this.startToZiqZaq = true;
 		this.moveType = 1;
-		this.finished = false;
 		this.R = random(256);
 		this.G = random(256);
 		this.B = random(256);
@@ -99,10 +98,6 @@ class Player
 			this.TY = 475 - 50 * this.targetY;	
 		}
 		this.readyToGetDieValue = false;
-		if(this.targetY == 9 && this.targetX == 0)
-		{
-			this.finished = true;
-		}
 	}
 	
 	display()

@@ -22,7 +22,7 @@ class Initializer
 		this.ladderTailX = new Array(this.ladderCount);
 		this.ladderTailY = new Array(this.ladderCount);
 		this.CANVAS_W = 750;
-		this.CANVAS_H = 500;
+		this.CANVAS_H = 600;
 		this.leftEmptyW = 50;
 		this.players = new Array(1);
 		this.players[0] = new Player();
