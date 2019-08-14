@@ -119,7 +119,7 @@ function setCurrentPlayer()
 		++index;
 	}
 	currentPlayer = begin.players[index % playerCount];
-	if(curr == index % playerCount)
+	if(curr == index % playerCount && playerCount != 1)
 	{
 		currentPlayer.targetY = 9;
 		currentPlayer.targetX = 0;
