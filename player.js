@@ -88,7 +88,6 @@ class Player
 				{
 					this.targetY = 9
 					this.targetX = 0;
-					this.finished = true;
 				}
 			}
 			else if(a * this.direction + this.currentX > 9)
@@ -100,6 +99,10 @@ class Player
 			this.TY = 475 - 50 * this.targetY;	
 		}
 		this.readyToGetDieValue = false;
+		if(this.targetY == 9 && this.targetX == 0)
+		{
+			this.finished = true;
+		}
 	}
 	
 	display()

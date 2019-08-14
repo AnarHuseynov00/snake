@@ -21,9 +21,11 @@ function setup()
 	dieButton = createButton('roll dies');
 	dieButton.position(dieButtonX, dieButtonY);
 	dieButton.mousePressed(getDieValue);
-	anotherDieButton = createButton('change player');
-	anotherDieButton.position(dieButtonX, dieButtonY - 50);
-	anotherDieButton.mousePressed(setCurrentPlayer);
+	var col = color(25, 23, 200, 50);
+	dieButton.style('background-color', col);
+	//anotherDieButton = createButton('change player');
+	//anotherDieButton.position(dieButtonX, dieButtonY - 50);
+	//anotherDieButton.mousePressed(setCurrentPlayer);
 }
 function draw()
 {
@@ -79,6 +81,7 @@ function getPlayerCount()
 function getDieValue()
 {
 	let dieV;
+	setCurrentPlayer();
 	if(currentPlayer.currentX == currentPlayer.targetX && currentPlayer.targetY == currentPlayer.currentY)
 	{
 		dieV = die.rollDies();
@@ -99,10 +102,12 @@ function setCurrentPlayer()
 	if(!begin.players[index % playerCount].finished)
 	{
 		currentPlayer = begin.players[index % playerCount];
+		console.log(1);
 	}
 	else if(!begin.players[(++index) % playerCount].finished)
 	{
-		currentPlayer = begin.players[index % playerCount];	
+		currentPlayer = begin.players[index % playerCount];
+		console.log(2);	
 	}
 	else if(!begin.players[(++index) % playerCount].finished)
 	{
@@ -112,6 +117,7 @@ function setCurrentPlayer()
 	{
 		index++;
 	}
+	text('current player is ' + (index % playerCount), 560, 100);
 }
 function drawTable()
 {
@@ -132,12 +138,12 @@ function buttonController(a)
 	if(a.currentX == a.targetX && a.targetY == a.currentY)
 	{
 		dieButton.removeAttribute('disabled');
-		anotherDieButton.removeAttribute('disabled');
+		//anotherDieButton.removeAttribute('disabled');
 	}
 	else
 	{
 		dieButton.attribute('disabled', '');
-		anotherDieButton.attribute('disabled', '');
+		//anotherDieButton.attribute('disabled', '');
 	}
 }
 function controlMove(a)
