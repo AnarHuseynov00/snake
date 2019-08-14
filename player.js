@@ -173,8 +173,8 @@ class Player
 			multiplier = 0;
 		if(this.startToZiqZaq)
 		{
-			speed1 = (this.TX - this.CX) / 200;
-			speed2 = (this.TY - this.CY) / 200;
+			speed1 = (this.TX - this.CX) / 100;
+			speed2 = (this.TY - this.CY) / 100;
 		}
 		if(this.currentY != this.targetY)
 		{	

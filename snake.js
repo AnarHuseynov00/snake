@@ -32,6 +32,7 @@ function draw()
 	displayPlayers();
 	movePlayers();
 	die.drawDie();
+	console.log(index);
 }
 function drawZiqZaq(a, b, c, d, e)
 {
@@ -42,10 +43,10 @@ function drawZiqZaq(a, b, c, d, e)
 		mul = 0;
 	circleX = a;
 	circleY = b;
-	var speed1 = (c - a) / 200;
-	var speed2 = (d - b) / 200;
+	var speed1 = (c - a) / 100;
+	var speed2 = (d - b) / 100;
 	let degree = 0;    
-	for(var e = 0; e < 200; e++)
+	for(var e = 0; e < 100; e++)
 	{
 		circle(circleX, circleY, 10);
 		degree = degree + special;
@@ -94,16 +95,16 @@ function getDieValue()
 }
 function setCurrentPlayer()
 {
-	index++;
-	if(begin.players[index % playerCount].targetX != 0 || begin.players[index % playerCount].targetY != 9)
+	let now = index;
+	let curr = index % playerCount;
+	++index;
+	/*if(begin.players[++index % playerCount].targetX != 0 || begin.players[index % playerCount].targetY != 9)
 	{
 		currentPlayer = begin.players[index % playerCount];
-		console.log(1);
 	}
 	else if(begin.players[++index % playerCount].targetX != 0 || begin.players[index % playerCount].targetY != 9)
 	{
-		currentPlayer = begin.players[index % playerCount];
-		console.log(2);	
+		currentPlayer = begin.players[index % playerCount];	
 	}
 	else if(begin.players[++index % playerCount].targetX != 0 || begin.players[index % playerCount].targetY != 9)
 	{
@@ -111,8 +112,25 @@ function setCurrentPlayer()
 	}
 	else
 	{
-		index++;
+		index ++;
+	}*/
+	while(begin.players[index % playerCount].targetX == 0 && begin.players[index % playerCount].targetY == 9 && index < now + 4)
+	{
+		++index;
 	}
+	currentPlayer = begin.players[index % playerCount];
+	if(curr == index % playerCount)
+	{
+		currentPlayer.targetY = 9;
+		currentPlayer.targetX = 0;
+		currentPlayer.currentX = 0;
+		currentPlayer.currentY = 9;
+		currentPlayer.TX = begin.leftEmptyW + begin.cellW / 2;
+		currentPlayer.CX = begin.leftEmptyW + begin.cellW / 2;
+		currentPlayer.TY = begin.cellH / 2;
+		currentPlayer.CY = begin.cellH / 2;
+	}
+
 }
 function drawTable()
 {
