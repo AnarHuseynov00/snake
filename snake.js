@@ -5,9 +5,8 @@ let dieButtonX = 560;
 let dieButtonY = 400;
 let begin;
 let die = new Die();
-let index = 0;
+let index = -1;
 let playerCount;
-let dragger = 0;
 function setup()
 {
 	getPlayerCount();
@@ -23,9 +22,6 @@ function setup()
 	dieButton.mousePressed(getDieValue);
 	var col = color(25, 23, 200, 50);
 	dieButton.style('background-color', col);
-	//anotherDieButton = createButton('change player');
-	//anotherDieButton.position(dieButtonX, dieButtonY - 50);
-	//anotherDieButton.mousePressed(setCurrentPlayer);
 }
 function draw()
 {
@@ -196,8 +192,7 @@ function controlMove(a)
 				{
 					if(begin.players[j].CX == a.CX && begin.players[j].CY == a.CY)
 					{
-						begin.players[j].drag((dragger % 4) + 1);
-						dragger++;
+						begin.players[j].drag(j + 1);
 					}
 				}
 			}
