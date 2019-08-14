@@ -98,22 +98,6 @@ function setCurrentPlayer()
 	let now = index;
 	let curr = index % playerCount;
 	++index;
-	/*if(begin.players[++index % playerCount].targetX != 0 || begin.players[index % playerCount].targetY != 9)
-	{
-		currentPlayer = begin.players[index % playerCount];
-	}
-	else if(begin.players[++index % playerCount].targetX != 0 || begin.players[index % playerCount].targetY != 9)
-	{
-		currentPlayer = begin.players[index % playerCount];	
-	}
-	else if(begin.players[++index % playerCount].targetX != 0 || begin.players[index % playerCount].targetY != 9)
-	{
-		currentPlayer = begin.players[index % playerCount];	
-	}
-	else
-	{
-		index ++;
-	}*/
 	while(begin.players[index % playerCount].targetX == 0 && begin.players[index % playerCount].targetY == 9 && index < now + 4)
 	{
 		++index;
