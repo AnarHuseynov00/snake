@@ -8,9 +8,9 @@ class Player
 {
 	constructor()
 	{
-		this.currentX = 3;
+		this.currentX = 0;
 		this.currentY = 0;
-		this.targetX = 3;
+		this.targetX = 0;
 		this.targetY = 0;
 		this.CX = 75 + 50 * this.currentX;
 		this.CY = 475 - 50 * this.currentY;	
@@ -275,9 +275,9 @@ class Player
 			speed1 = (this.TX - this.CX) / 100;
 			speed2 = (this.TY - this.CY) / 100;
 		}
-		if(this.currentY != this.targetY)
+		if(this.currentY != this.targetY || this.currentX != this.targetX)
 		{	
-			if(Math.round(this.CY) != this.TY)
+			if(Math.round(this.CY) != this.TY || Math.round(this.CX) != this.TX)
 			{
 				this.CY = this.CY + speed2;
 				this.CX = this.CX + speed1 + multiplier * Math.sin(degree1);

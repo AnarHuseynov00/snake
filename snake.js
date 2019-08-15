@@ -4,6 +4,7 @@ let anotherDieButton;
 let dieButtonX = 600;
 let dieButtonY = 400;
 let begin;
+let surpise;
 let die = new Die();
 let index = -1;
 let playerCount;
@@ -11,11 +12,13 @@ function setup()
 {
 	getPlayerCount();
 	begin = new Initializer();
+	surpise = new Box(begin);
 	begin.submitPlayerCount(playerCount);
 	createCanvas(begin.CANVAS_W, begin.CANVAS_H);
-	background(205, 205, 255);
+	background(175, 175, 255);
 	begin.setTable();
 	begin.randomGenerator();
+	surpise.generator();
 	currentPlayer = begin.players[0];
 	dieButton = createButton('roll dies');
 	dieButton.position(dieButtonX, dieButtonY);
@@ -25,14 +28,16 @@ function setup()
 }
 function draw()
 {
-	background(205, 205, 255);
+	background(175, 175, 255);
 	drawTable();
 	begin.drawSAL();
+	surpise.display();
 	buttonController(currentPlayer);
 	displayPlayers();
 	movePlayers();
 	die.drawDie();
 }
+
 function drawZiqZaq(a, b, c, d, e)
 {
 	var mul;
@@ -82,7 +87,7 @@ function getDieValue()
 	{
 		dieV = die.rollDies();
 		currentPlayer.setRTGDV();
-		currentPlayer.setSTZZ();
+		//currentPlayer.setSTZZ();
 		if(currentPlayer.dragVal != 0)
 		{
 			currentPlayer.drag(5 - currentPlayer.dragVal);
@@ -91,7 +96,6 @@ function getDieValue()
 
 	}
 	currentPlayer.setTargetByDieValue(dieV);
-	console.log(dieV);
 }
 function setCurrentPlayer()
 {
@@ -124,7 +128,8 @@ function drawTable()
 		{
 			if(begin.table[x*begin.tableCol + y])
 			{
-				fill(begin.tableR[x*begin.tableCol + y], begin.tableG[x*begin.tableCol + y], begin.tableB[x*begin.tableCol + y]);
+				//fill(begin.tableR[x*begin.tableCol + y], begin.tableG[x*begin.tableCol + y], begin.tableB[x*begin.tableCol + y]);
+				fill(255, 255, 255);
 				rect(begin.leftEmptyW + y * begin.cellW, x * begin.cellH, begin.cellW - 1, begin.cellH - 1,5);
 			}
 		}
@@ -147,11 +152,54 @@ function controlMove(a)
 		&& a.currentY == a.targetY)
 	{
 		a.moveType = 1;
+		if(a.CX == surpise.boxX && a.CY == surpise.boxY)
+		{
+			surpise.generateNewSpecial();
+			if(surpise.specialVal == 0)
+			{
+				currentPlayer.setRTGDV();
+				currentPlayer.setSTZZ();
+				currentPlayer.setTargetByDieValue(5);
+			}
+			else if(surpise.specialVal == 1)
+			{
+				currentPlayer.setRTGDV();
+				currentPlayer.setSTZZ();
+				currentPlayer.setTargetByDieValue(-5);
+			}
+			else if(surpise.specialVal == 2)
+			{
+				//currentPlayer.setRTGDV();
+				currentPlayer.setSTZZ();
+				var s = surpise.findClosestSnake();
+				var x1 = s - Math.floor(s / begin.tableCol) * begin.tableCol;
+				var y1 = Math.floor(s / begin.tableCol);
+				a.targetX = x1;
+				a.targetY = y1;
+				a.TX = begin.leftEmptyW + begin.cellW/2 + x1 * begin.cellW;
+				a.TY = begin.tableRow * begin.cellH - begin.cellH/2 - y1*begin.cellH;
+				a.moveType = 3;				
+			}
+			else if(surpise.specialVal == 3)
+			{
+				//currentPlayer.setRTGDV();
+				currentPlayer.setSTZZ();
+				var s = surpise.findClosestLadder();
+				var x1 = s - Math.floor(s / begin.tableCol) * begin.tableCol;
+				var y1 = Math.floor(s / begin.tableCol);
+				a.targetX = x1;
+				a.targetY = y1;
+				a.TX = begin.leftEmptyW + begin.cellW/2 + x1 * begin.cellW;
+				a.TY = begin.tableRow * begin.cellH - begin.cellH/2 - y1*begin.cellH;
+				a.moveType = 3;				
+			}
+		}
 		for(var i = 0; i < begin.snakeCount; i++)
 		{
 			if(a.CX == begin.snakeHeadX[i] 
 				&& a.CY == begin.snakeHeadY[i])
 			{
+				a.setSTZZ();
 				a.targetX = (begin.snakeTailX[i] - begin.leftEmptyW - begin.cellW/2) / begin.cellW;
 				a.targetY = (475 - begin.snakeTailY[i]) / begin.cellH;
 				a.TX = begin.snakeTailX[i];
@@ -164,6 +212,7 @@ function controlMove(a)
 			if(a.CX == begin.ladderHeadX[i] 
 				&& a.CY == begin.ladderHeadY[i])
 			{
+				a.setSTZZ();
 				a.targetX =  (begin.ladderTailX[i] - begin.leftEmptyW - begin.cellW/2) / begin.cellW;
 				a.targetY = (475 - begin.ladderTailY[i]) / begin.cellH;
 				a.TX = begin.ladderTailX[i];

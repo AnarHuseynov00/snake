@@ -11,8 +11,10 @@ class Initializer
 		this.tableR = new Array(this.tableRow * this.tableCol);
 		this.tableG = new Array(this.tableCol * this.tableRow);
 		this.tableB = new Array(this.tableRow * this.tableCol);
-		this.snakeCount = 0; 
-		this.ladderCount = 0;
+		this.snakeCount = 4; 
+		this.ladderCount = 4;
+		this.snakeHeadTableCor = new Array(this.snakeCount);
+		this.ladderHeadTableCor = new Array(this.ladderCount);
 		this.snakeHeadX = new Array(this.snakeCount);
 		this.snakeHeadY = new Array(this.snakeCount);
 		this.snakeTailX = new Array(this.snakeCount);
@@ -26,6 +28,7 @@ class Initializer
 		this.leftEmptyW = 50;
 		this.players = new Array(1);
 		this.players[0] = new Player();
+		this.corArray = new Array(this.snakeCount * 2  + this.ladderCount * 2);
 	}
 	setTable()
 	{
@@ -49,6 +52,7 @@ class Initializer
 	}
 	randomGenerator()
 	{
+		var lastArray = new Array(this.snakeCount * 2 + this.ladderCount *2);
 		var snakeCor = new Array(this.snakeCount * 2);
 		var ladderCor = new Array(this.ladderCount * 2);
 		for(var i = 0; i < snakeCor.length; i = i + 2)
@@ -161,6 +165,7 @@ class Initializer
 			this.snakeHeadY[k] = Math.floor(snakeCor[2*k] / 10);
 			this.snakeTailX[k] = snakeCor[2*k+1] - Math.floor(snakeCor[2*k+1] / 10) * 10;
 			this.snakeTailY[k] = Math.floor(snakeCor[2*k+1] / 10);
+			this.snakeHeadTableCor[k] = snakeCor[2*k];
 		}
 		for(var k = 0; k < this.ladderCount; k++)
 		{
@@ -168,6 +173,7 @@ class Initializer
 			this.ladderHeadY[k] = Math.floor(ladderCor[2*k] / 10);
 			this.ladderTailX[k] = ladderCor[2*k+1] - Math.floor(ladderCor[2*k+1] / 10) * 10;
 			this.ladderTailY[k] = Math.floor(ladderCor[2*k+1] / 10);
+			this.ladderHeadTableCor[k] = ladderCor[2*k];
 		}
 		for(var k = 0; k < this.snakeCount; k++)
 		{
@@ -183,8 +189,16 @@ class Initializer
 			this.ladderTailX[k] = this.leftEmptyW + this.cellW/2 + this.ladderTailX[k] * this.cellW;
 			this.ladderTailY[k] = 475 - this.ladderTailY[k] * this.cellH;
 		}
+		for(var k = 0; k < this.snakeCount * 2; k++)
+		{
+			lastArray[k] = snakeCor[k];
+		}
+		for(var k = this.snakeCount * 2; k <this.ladderCount * 2 + this.snakeCount * 2; k++)
+		{
+			lastArray[k] = ladderCor[k];
+		}
+		this.corArray = lastArray;
 	}
-
 	drawZiqZaq(a, b, c, d, e)
 	{
 		var mul;
