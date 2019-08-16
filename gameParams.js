@@ -11,8 +11,8 @@ class Initializer
 		this.tableR = new Array(this.tableRow * this.tableCol);
 		this.tableG = new Array(this.tableCol * this.tableRow);
 		this.tableB = new Array(this.tableRow * this.tableCol);
-		this.snakeCount = 4; 
-		this.ladderCount = 4;
+		this.snakeCount = 3; 
+		this.ladderCount = 3;
 		this.snakeHeadTableCor = new Array(this.snakeCount);
 		this.ladderHeadTableCor = new Array(this.ladderCount);
 		this.snakeHeadX = new Array(this.snakeCount);
@@ -52,7 +52,6 @@ class Initializer
 	}
 	randomGenerator()
 	{
-		var lastArray = new Array(this.snakeCount * 2 + this.ladderCount *2);
 		var snakeCor = new Array(this.snakeCount * 2);
 		var ladderCor = new Array(this.ladderCount * 2);
 		for(var i = 0; i < snakeCor.length; i = i + 2)
@@ -191,13 +190,12 @@ class Initializer
 		}
 		for(var k = 0; k < this.snakeCount * 2; k++)
 		{
-			lastArray[k] = snakeCor[k];
+			this.corArray[k] = snakeCor[k];
 		}
-		for(var k = this.snakeCount * 2; k <this.ladderCount * 2 + this.snakeCount * 2; k++)
+		for(var k = this.snakeCount * 2; k < this.ladderCount * 2 + this.snakeCount * 2; k++)
 		{
-			lastArray[k] = ladderCor[k];
+			this.corArray[k] = ladderCor[k - this.snakeCount * 2];
 		}
-		this.corArray = lastArray;
 	}
 	drawZiqZaq(a, b, c, d, e)
 	{

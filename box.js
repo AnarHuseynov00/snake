@@ -11,7 +11,23 @@ class Box
 	generateNewSpecial()
 	{
 		this.specialVal = Math.floor(random(4));
-		console.log(this.specialVal);
+		let key = 'special value is ' + this.specialVal + '.';
+		if(this.specialVal == 0)
+		{
+			alert("you will go 5 steps ahead");
+		}
+		else if(this.specialVal == 1)
+		{
+			alert("you will go 5 steps back");
+		}
+		else if(this.specialVal == 2)
+		{
+			alert("you will go to the start of the nearest snake");
+		}
+		else if(this.specialVal == 3)
+		{
+			alert("you will go to the start of the nearest ladder");
+		}
 	}
 	generator()
 	{
@@ -20,9 +36,11 @@ class Box
 		while(notValid)
 		{
 			notValid = false;
-			tableCor = Math.floor(random(98) + 1);
-			console.log(this.initializer.corArray[1]);
-			console.log(this.initializer.corArray[2]);
+			tableCor = Math.floor(random(99) + 1);
+			if(tableCor == 90)
+			{
+				notValid = true;
+			}
 			for(var k = 0; k < (this.initializer.corArray).length; k++)
 			{
 				if(tableCor == this.initializer.corArray[k])
