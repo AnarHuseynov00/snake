@@ -26,8 +26,8 @@ class Initializer
 		this.CANVAS_W = 750;
 		this.CANVAS_H = 600;
 		this.leftEmptyW = 50;
-		this.players = new Array(1);
-		this.players[0] = new Player();
+		this.players;// = new Array(1);
+		//this.players[0] = new Player();
 		this.corArray = new Array(this.snakeCount * 2  + this.ladderCount * 2);
 	}
 	setTable()

@@ -8,14 +8,15 @@ class Player
 {
 	constructor()
 	{
+		this.params = new Initializer();
 		this.currentX = 0;
 		this.currentY = 0;
 		this.targetX = 0;
 		this.targetY = 0;
-		this.CX = 75 + 50 * this.currentX;
-		this.CY = 475 - 50 * this.currentY;	
-		this.TX = 75 + 50 * this.targetX;
-		this.TY = 475 - 50 * this.targetY;	
+		this.CX = this.params.leftEmptyW + this.params.cellW/2 + this.params.cellW * this.currentX;
+		this.CY = this.params.tableRow * this.params.cellH - this.params.cellH / 2 - this.params.cellH * this.currentY;	
+		this.TX = this.params.leftEmptyW + this.params.cellW/2 + this.params.cellW * this.targetX;
+		this.TY = this.params.tableRow * this.params.cellH - this.params.cellH / 2 - this.params.cellH * this.targetY;	
 		this.direction = 1;
 		this.moveDirection = 1;
 		this.readyToGetDieValue = false;
@@ -97,8 +98,8 @@ class Player
 					this.targetY += 1;
 					this.targetX = 19 - a * this.direction - this.currentX;
 				}
-				this.TX = 75 + 50 * this.targetX;
-				this.TY = 475 - 50 * this.targetY;	
+				this.TX = this.params.leftEmptyW + this.params.cellW/2 + this.params.cellW * this.targetX;
+				this.TY = this.params.tableRow * this.params.cellH - this.params.cellH / 2 - this.params.cellH * this.targetY;	
 			}
 			this.readyToGetDieValue = false;
 		}
@@ -133,8 +134,8 @@ class Player
 					this.targetY -= 1;
 					this.targetX = 19 - a * this.direction - this.currentX;
 				}
-				this.TX = 75 + 50 * this.targetX;
-				this.TY = 475 - 50 * this.targetY;	
+				this.TX = this.params.leftEmptyW + this.params.cellW/2 + this.params.cellW * this.targetX;
+				this.TY = this.params.tableRow * this.params.cellH - this.params.cellH / 2 - this.params.cellH * this.targetY;	
 			}
 			this.readyToGetDieValue = false;	
 		}

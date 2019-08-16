@@ -1,8 +1,8 @@
 let currentPlayer;
 let dieButton;
 let anotherDieButton;
-let dieButtonX = 600;
-let dieButtonY = 400;
+let dieButtonX = 500;
+let dieButtonY = 550;
 let begin;
 let surpise;
 let die = new Die();
@@ -201,7 +201,7 @@ function controlMove(a)
 			{
 				a.setSTZZ();
 				a.targetX = (begin.snakeTailX[i] - begin.leftEmptyW - begin.cellW/2) / begin.cellW;
-				a.targetY = (475 - begin.snakeTailY[i]) / begin.cellH;
+				a.targetY = (begin.tableRow * begin.cellH - begin.cellH/2 - begin.snakeTailY[i]) / begin.cellH;
 				a.TX = begin.snakeTailX[i];
 				a.TY = begin.snakeTailY[i];
 				a.moveType = 2;
@@ -214,7 +214,7 @@ function controlMove(a)
 			{
 				a.setSTZZ();
 				a.targetX =  (begin.ladderTailX[i] - begin.leftEmptyW - begin.cellW/2) / begin.cellW;
-				a.targetY = (475 - begin.ladderTailY[i]) / begin.cellH;
+				a.targetY = (begin.tableRow * begin.cellH - begin.cellH/2 - begin.ladderTailY[i]) / begin.cellH;
 				a.TX = begin.ladderTailX[i];
 				a.TY = begin.ladderTailY[i];
 				a.moveType = 3;
